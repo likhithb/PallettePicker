@@ -1,16 +1,26 @@
 from asyncore import read
-import os
+
+from flask import Flask, request
+from flask_restful import Resource, Api
+
 import subprocess
-import re
+
+
+getterApp = Flask(__name__)
+getterApi = Api(getterApp)
 
 class PalletePicker:
 
 
     def __init__(self) -> None:
-        self.topColor = '43,89,104'
-        self.bottomColorOptions = [];
+
+        self.topColor = ''
+        self.bottomColorOptions = []
         self.bottomColor = ''
-        self.seasons = ('winter', 'spring', 'summer', 'fall')
+        self.accentColorOptions = []
+        
+        #maybe a new feature later?
+        #self.seasons = ('winter', 'spring', 'summer', 'fall')
 
 
     def pickColorBottom(self) -> str:
@@ -18,41 +28,46 @@ class PalletePicker:
         if(self.topColor == ''):
             print(f'A color has not been chosen yet, please choose a color :)')
         else:
+            #writing the api output to the file
             file = open('ColorData.txt','w+')
             apiCmd = "curl \'http://colormind.io/api/\' --data-binary \'{\"input\":"+f"[[{self.getTopColor}]]"+",\"model\":\"default\"}\'"
             subprocess.run(apiCmd, shell=True, stdout=file)
             file.close()
 
+            #reading the api output in for preprocessing
             file = open('ColorData.txt','r+')
             output = file.read()
-            output = output[11:len(output)-3]
             file.close()
+
+            #preporcessing the output
+            output = output[12:len(output)-4]
+            self.bottomColorOptions = output.split('],[')
+
+            return self.bottomColorOptions
 
 
     def pickColorTop(self) -> str:
 
-            if(self.topColor == ''):
+            if(self.topColor == '' or self.bottomColor == ''):
                 print(f'A color has not been chosen yet, please choose a color :)')
             else:
                 file = open('ColorData.txt','w+')
-                apiCmd = "curl \'http://colormind.io/api/\' --data-binary \'{\"input\":"+f"[[{self.getTopColor}]]"+",\"model\":\"default\"}\'"
+                apiCmd = "curl \'http://colormind.io/api/\' --data-binary \'{\"input\":"+f"[[{self.getTopColor},{self.getBottomColor}]]"+",\"model\":\"default\"}\'"
                 subprocess.run(apiCmd, shell=True, stdout=file)
                 file.close()
 
-                file = open('ColorData.txt','r+')
-                output = file.read()
-                output = output[11:len(output)-3]
-                file.close()
+            #reading the api output in for preprocessing
+            file = open('ColorData.txt','r+')
+            output = file.read()
+            file.close()
 
+            #preprocessing the output
+            output = output[12:len(output)-4]
+            self.accentColorOptions = output.split('],[')
 
-                print(output)
+            return self.accentColorOptions
 
-                self.bottomColorOptions = re.findall('\[d*,d*,d*],[d*,d*,d*],[d*,d*,d*],[d*,d*,d*],[d*,d*,d*]', output)
-                print(self.bottomColorOptions)
-
-                return output
-           
-
+    
     @property
     def getBottomColor(self) -> str:
         return self.bottomColor
@@ -70,6 +85,11 @@ class PalletePicker:
 
 ##
 test = PalletePicker()
+
+test.setTopColor('13,54,189')
 print(test.getTopColor)
+test.setBottomColor('145,36,90')
+
 test.pickColorBottom()
+test.pickColorTop()
 ##
