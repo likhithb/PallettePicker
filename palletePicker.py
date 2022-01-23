@@ -83,6 +83,8 @@ class PalletePicker:
         self.bottomColor = color
     
 
+getterApi.add_resource(PalletePicker, '/PallettePicker')
+
 ##
 test = PalletePicker()
 
