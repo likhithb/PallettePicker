@@ -21,36 +21,6 @@ async function colorInput(){
 		console.log(block)
 
 	}
-	// var t = document.createTextNode(inputValue);
-
-	// if(inputValue===''){
-	// 	alert("You must write something!");
-	// }else if(count==1){
-	// 	var color = document.createElement("top");
-	// 	color.appendChild(t);
-	// 	var old = document.getElementById("shirt");
-	// 	color.className = "top";
-	// 	var parent = old.parentNode;
-	// 	parent.replaceChild(color, old);
-
-	// }else if(count==2){
-	// 	var color = document.createElement("bottom");
-	// 	color.appendChild(t);
-	// 	var old = document.getElementById("pants");
-	// 	color.className = "bottom";
-	// 	var parent = old.parentNode;
-	// 	parent.replaceChild(color, old);
-		
-	// }
-
-	// document.getElementById("myInput").value = "";
-
-	// for(i = 0; i < close.length; i++){
-	// 	close[i].onclick = function() {
-	// 		var div = this.parentElement;
-	// 		div.style.display = "none";
-	// 	}
-	// }
 
 }
 
@@ -67,14 +37,13 @@ async function completePallete(shirt, bottom){
 		body: JSON.stringify(data)
 	})
 	console.log(response)
+	
 	if(response.ok){
 		let palette = await response.json()
 		return palette.result
 	}else{
 		console.error(response)
 	}
-
-	
 
 	// {"result": [[42, 41, 48], [90, 83, 84], [191, 157, 175], [188, 138, 125], [215, 170, 66]]}
 	// note that the input colors have changed as well, by a small amount
