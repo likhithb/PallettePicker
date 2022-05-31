@@ -2,6 +2,7 @@
 body {
 	margin:  0;
 	min-width:  250px;
+	background-color: #1f1f1f;
 }
 
 /* Include the padding and border in an element's total width and height*/
@@ -18,7 +19,7 @@ body {
 }
 
 .color {
-	background-color: #424242;
+	background-color: gray;
 	width: 2em;
 	height:  2em;
 }
@@ -91,7 +92,8 @@ ul li.checked::before {
 
 /* Style the header */
 .header {
-	background-color: #48627F;
+	background-color: black;
+	font-family: didot;
 	padding: 30px 40px;
 	color: #F6F7F4;
 	text-align: center;
@@ -108,11 +110,12 @@ ul li.checked::before {
 .calcBtn {
 	padding: 10px;
 	width:  25%;
-	background: #93846B;
-	color:  white;
+	background: whitesmoke;
+	color:  black;
 	float:  left;
 	text-align: center;
 	font-size: 16px;
+	font-family: Didot;
 	cursor: pointer;
 	transition: 0.3s;
 	border-radius:  0;
